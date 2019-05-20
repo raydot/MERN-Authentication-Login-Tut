@@ -1,0 +1,43 @@
+{
+  "name": "mern-authentication-login-tut",
+  "version": "1.0.0",
+  "description": "MERN Authentication Tutorial.  See README for details.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server":"nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raydot/MERN-Authentication-Login-Tut.git"
+  },
+  "keywords": [
+    "MERN",
+    "react",
+    "express",
+    "authentication"
+  ],
+  "author": "Dave Kanter",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/raydot/MERN-Authentication-Login-Tut/issues"
+  },
+  "homepage": "https://github.com/raydot/MERN-Authentication-Login-Tut#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.0",
+    "express": "^4.17.0",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.9",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "sequelize": "^5.8.6",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
