@@ -1,5 +1,11 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
+
+// See the bottom of the code for explanations on the use of most of these
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+import { registerUser } from "../../actions/authActions"
+import classnames from "classnames"
 
 class Register extends Component {
 	constructor() {
@@ -13,9 +19,18 @@ class Register extends Component {
 		};
 	}//constructor
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.errors) {
+			this.setState({
+				errors: nextProps.errors
+			});
+		}
+	}
+
 	onChange = e => {
 		this.setState({ [e.target.id]: e.target.value })
 	} //onChange
+
 
 	onSubmit = e => {
 		//keep the page from reloading
@@ -30,6 +45,7 @@ class Register extends Component {
 		};
 
 		console.log(newUser);
+		this.props.registerUser(newUser, this.props.history);
 	} // onSubmit
 
 	render() {
@@ -59,8 +75,12 @@ class Register extends Component {
 									error={errors.name}
 									id="name"
 									type="text"
+									className={classnames("", {
+										invalid: errors.name
+									})}
 								/>
 								<label htmlFor="name">Name</label>
+								<span className="red-text">{errors.name}</span>
 							</div>
 							<div className="input-field col s12">
 								<input
@@ -70,7 +90,8 @@ class Register extends Component {
 									id="email"
 									type="email"
 								/>
-								<label htmlFor="name">Name</label>
+								<label htmlFor="name">Email</label>
+								<span className="red-text">{errors.email}</span>
 							</div>
 							<div className="input-field col s12">
 								<input
@@ -79,8 +100,12 @@ class Register extends Component {
 									error={errors.password}
 									id="password"
 									type="password"
+									className={classnames("", {
+										invalid: errors.password
+									})}
 								/> 
 								<label htmlFor="password">Password</label>
+								<span className="red-text">{errors.password}</span>
 							</div>
 							<div className="input-field col s12">
 								<input
@@ -89,8 +114,12 @@ class Register extends Component {
 									error={errors.password2}
 									id="password2"
 									type="password"
+									className={classnames("", {
+										invalid: errors.password2
+									})}
 								/>
-								<label htmlFor="name">Confirm Password</label>
+								<label htmlFor="password2">Confirm Password</label>
+								<span className="red-text">{errors.password2}</span>
 							</div>
 							<div className="col s12" style={{ paddingLeft: "11.250px"}}>
 								<button
@@ -115,4 +144,26 @@ class Register extends Component {
 	}//render()
 }//class Register
 
-export default Register;
+// define prop types
+// Since we cannot define types in our constructor, it is considered good convention to do so using the prop-types package
+Register.propTypes = {
+	registerUser: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+	errors: PropTypes.object.isRequired
+}
+
+// mapStateToProps allows us to get our state from Redux and map it to props which we can use inside components
+// this allows us to call this.props.auth or this.props.errors within our Register component
+const mapStateToProps = state => ({
+	auth: state.auth,
+	errors: state.errors
+});
+
+
+/*	We can't redirect with an action by default from within a component. This construction:
+	* 	Uses withRouter from react-router-dom to wrap our component in our withRouter export
+	*	Will add a parameter to this.props.history within our call to this.props.registerUser(newUser, this.props.history). in our onSubmit event so we can easily access it within our action
+*/ 
+export default connect(
+	mapStateToProps, { registerUser }
+)(withRouter(Register));
