@@ -5,13 +5,13 @@ import jwt_decode from "jwt-decode"
 import {
 	GET_ERRORS,
 	SET_CURRENT_USER,
-	USER_LOADER
+	USER_LOADING
 } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
 	axios
-		.post("api/user/register", userData)
+		.post("api/users/register", userData)
 		.then(res => history.push("/login")) //redirect to login on successful register
 		.catch(err => 
 			dispatch({
@@ -57,7 +57,7 @@ export const setCurrentUser = decoded => {
 // User loading
 export const setUserLoading = () => {
 	return {
-		type: USER_LOADER
+		type: USER_LOADING
 	}
 }
 
